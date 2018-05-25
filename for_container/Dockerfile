@@ -1,10 +1,11 @@
-FROM ubuntu:latest
+FROM ubuntu
 RUN apt-get update -y
 RUN apt-get install -y python-pip python-dev build-essential
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
 EXPOSE 5000
+RUN python offline_training.py
 ENTRYPOINT ["python"]
 CMD ["app.py"]
 

@@ -1,5 +1,10 @@
 from flask import Flask, jsonify, make_response, request, abort
+import pickle
+from sklearn.linear_model import LogisticRegression
 app = Flask(__name__)
+
+def preprocessor(txt):
+    return len(txt.split())
 
 @app.route('/')
 def hello_world():
@@ -13,7 +18,11 @@ def ping():
 def inference():
     if not request.json:
         abort(400)
-    return jsonify({'echo': request.json}), 201
+    x = [[preprocessor(request.json['input_txt'])]]
+    with open('basic_model.pkl', 'rb') as f:
+        lr = pickle.load(f)
+    y_pred = lr.predict(x)
+    return jsonify({'transformed_input': str(x), 'prediction':str(y_pred)}), 201
 
 
 @app.errorhandler(404)
