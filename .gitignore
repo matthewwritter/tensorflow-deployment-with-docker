@@ -1,2 +1,4 @@
 *.org
-*.pyc
+*.pycdeployment_example.pem
+for_container/deployment_example/
+deployment_example.pem
